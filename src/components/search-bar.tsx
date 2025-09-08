@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "../components/ui/button"
-import { Search, X, Sparkles } from "lucide-react"
+import { Search, Sparkles, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../components/ui/button";
 
 interface SearchBarProps {
-  onSearch: (query: string) => void
+  onSearch: (query: string) => void;
 }
 
 export function SearchBar({ onSearch }: SearchBarProps) {
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(query)
-  }
+    e.preventDefault();
+    onSearch(query);
+  };
 
   const handleClear = () => {
-    setQuery("")
-    onSearch("")
-  }
+    setQuery("");
+    onSearch("");
+  };
 
   return (
     <div className="relative">
@@ -62,5 +62,5 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         </div>
       </form>
     </div>
-  )
+  );
 }

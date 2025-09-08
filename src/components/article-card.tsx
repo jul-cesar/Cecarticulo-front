@@ -1,21 +1,8 @@
-import { Button } from "./ui/button"
-import { Calendar, Clock, User, Tag, ArrowRight } from "lucide-react"
+import { ArrowRight, Calendar, Tag, User } from "lucide-react";
+import type { Article } from "../models/Article";
+import { Button } from "./ui/button";
 
-interface Article {
-  id: number
-  title: string
-  description: string
-  author: string
-  date: string
-  readTime: string
-  category: string
-}
-
-interface ArticleCardProps {
-  article: Article
-}
-
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article }: { article: Article }) {
   return (
     <article className="group relative overflow-hidden bg-gradient-card border border-border/50 rounded-2xl p-8 hover-lift hover:border-primary/30 transition-all duration-300">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -25,7 +12,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <div className="flex items-center space-x-2">
           <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border border-primary/20 backdrop-blur-sm">
             <Tag className="h-4 w-4 mr-2" />
-            {article.category}
+            {article.categories.join(", ")}
           </span>
         </div>
 
@@ -35,7 +22,9 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </h2>
 
         {/* Description */}
-        <p className="text-muted-foreground leading-relaxed line-clamp-3 text-lg text-pretty">{article.description}</p>
+        <p className="text-muted-foreground leading-relaxed line-clamp-3 text-lg text-pretty">
+          {article.summary}
+        </p>
 
         {/* Metadata */}
         <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
@@ -43,26 +32,21 @@ export function ArticleCard({ article }: ArticleCardProps) {
             <div className="p-1 rounded-full bg-primary/10">
               <User className="h-4 w-4 text-primary" />
             </div>
-            <span className="font-medium">{article.author}</span>
+            <span className="font-medium">{article.authors.join(", ")}</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="p-1 rounded-full bg-secondary/10">
               <Calendar className="h-4 w-4 text-secondary" />
             </div>
             <span>
-              {new Date(article.date).toLocaleDateString("es-ES", {
+              {new Date(article.publishedDate).toLocaleDateString("es-ES", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </span>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="p-1 rounded-full bg-accent/10">
-              <Clock className="h-4 w-4 text-accent" />
-            </div>
-            <span>{article.readTime} de lectura</span>
-          </div>
+          <div className="flex items-center space-x-2"></div>
         </div>
 
         <div className="pt-4">
@@ -73,5 +57,5 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </div>
       </div>
     </article>
-  )
+  );
 }
