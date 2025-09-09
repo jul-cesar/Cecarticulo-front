@@ -15,7 +15,7 @@ import {
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const params = new URLSearchParams();
 
@@ -30,7 +30,7 @@ export default function Home() {
   const { isLoading, data } = useQuery({
     queryKey: ["articles", currentPage],
     queryFn: () => getArticles(currentPage, 20),
-    enabled: !!currentPage,
+    enabled: currentPage >= 0,
   });
 
   const progress = useQuery({
@@ -41,9 +41,9 @@ export default function Home() {
   });
 
   const mutation = useMutation({
-    mutationFn: () => searchArticles(searchQuery, 100),
+    mutationFn: () => searchArticles(searchQuery, 20),
     onSuccess: (data) => {
-      setCurrentPage(1);
+      setCurrentPage(0);
     },
   });
 
@@ -65,11 +65,10 @@ export default function Home() {
         <div className="container mx-auto px-4 py-12">
           <div className="text-center space-y-4">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
-              Buscador de Artículos
+              Cecarticulo
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-              Encuentra los mejores artículos sobre desarrollo web, diseño y
-              tecnología
+              Encuentra los mejores artículos sobre cualquier tema. Explora.
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
           </div>
@@ -211,9 +210,7 @@ export default function Home() {
 
       <footer className="border-t border-border/50 bg-gradient-to-r from-card/80 to-background/80 backdrop-blur-sm mt-20">
         <div className="container mx-auto px-4 py-12 text-center">
-          <p className="text-muted-foreground text-lg">
-            © 2024 Buscador de Artículos. Creado con React y TypeScript.
-          </p>
+          <p className="text-muted-foreground text-lg">© 2024 Cecarticulo.</p>
         </div>
       </footer>
     </div>

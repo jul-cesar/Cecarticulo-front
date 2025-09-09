@@ -7,7 +7,13 @@ export interface Article {
   categories: string[];
   pdfUrl: string;
   text: string;
-  images: string[];
+  /**
+   * Imagenes del artículo.
+   * El backend puede enviar:
+   *  - string: url absoluta, data URL (data:...), o cadena base64 sin prefijo
+   *  - number[]: arreglo de bytes (byte[])
+   */
+  images: (string | number[])[];
   keywords: string[];
 }
 

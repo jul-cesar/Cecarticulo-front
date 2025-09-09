@@ -1,4 +1,12 @@
-import { ArrowRight, Calendar, Tag, User } from "lucide-react";
+import { ArrowRight, Calendar, KeyIcon, Tag, User } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../components/ui/carousel";
+import { imageSourceFromUnknown } from "../lib/utils";
 import type { Article } from "../models/Article";
 import { Button } from "./ui/button";
 
@@ -13,6 +21,10 @@ export function ArticleCard({ article }: { article: Article }) {
           <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border border-primary/20 backdrop-blur-sm">
             <Tag className="h-4 w-4 mr-2" />
             {article.categories.join(", ")}
+          </span>
+          <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border border-primary/20 backdrop-blur-sm">
+            <KeyIcon className="h-4 w-4 mr-2" />
+            {article.keywords.join(", ")}
           </span>
         </div>
 
@@ -48,6 +60,37 @@ export function ArticleCard({ article }: { article: Article }) {
           </div>
           <div className="flex items-center space-x-2"></div>
         </div>
+
+        {Array.isArray(article.images) && article.images.length > 0 && (
+          <Carousel
+            opts={{
+              align: "center",
+            }}
+            className="w-full max-w-sm self-center"
+          >
+            <CarouselContent>
+              {article.images
+                .map((img) => imageSourceFromUnknown(img))
+                .filter((src): src is string => !!src)
+                .map((src, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="w-full h-48 rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={src}
+                      alt={`Imagen ${index + 1} del artículo`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        )}
 
         <div className="pt-4">
           <Button className="group/btn bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 font-semibold px-6 py-3 rounded-xl">
