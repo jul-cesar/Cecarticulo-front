@@ -10,7 +10,10 @@ import { imageSourceFromUnknown } from "../lib/utils";
 import type { Article } from "../models/Article";
 import { Button } from "./ui/button";
 
+import { useNavigate } from "react-router-dom";
+
 export function ArticleCard({ article }: { article: Article }) {
+  const navigate = useNavigate();
   return (
     <article className="group relative overflow-hidden bg-gradient-card border border-border/50 rounded-2xl p-8 hover-lift hover:border-primary/30 transition-all duration-300">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -93,7 +96,12 @@ export function ArticleCard({ article }: { article: Article }) {
         )}
 
         <div className="pt-4">
-          <Button className="group/btn bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 font-semibold px-6 py-3 rounded-xl">
+          <Button
+            onClick={() => {
+              navigate(`/articles/${article.id}`);
+            }}
+            className="group/btn bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 font-semibold px-6 py-3 rounded-xl"
+          >
             Leer artículo
             <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
           </Button>

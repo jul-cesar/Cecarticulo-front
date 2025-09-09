@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ArticlesResponse } from "../models/Article";
+import type { Article, ArticlesResponse } from "../models/Article";
 import type { Progress } from "../models/Progress";
 import type { Response } from "../models/Response";
 
@@ -66,6 +66,26 @@ export const getProgress = async (): Promise<Response<Progress>> => {
       data: { total: 0, procesados: 0, tiempoSegundos: 0 },
       success: false,
       message: "Error fetching progress",
+    };
+  }
+};
+
+export const getArticleById = async (
+  id: string
+): Promise<Response<Article>> => {   
+  try {
+    const res = await axios.get(`${API_URL}/articles/${id}`);
+    return {
+      data: res.data,
+      success: true,
+      message: "Article fetched successfully",
+    };
+  } catch (error) {
+    console.error("Error fetching article:", error);
+    return {
+      data: null as any,
+      success: false,
+      message: "Error fetching article",
     };
   }
 };
