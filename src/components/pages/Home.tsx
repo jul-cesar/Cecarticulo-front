@@ -27,21 +27,21 @@ export default function Home() {
     window.history.pushState({}, "", newUrl);
   };
   const progress = useQuery({
-    queryKey: ["progress"],
-    queryFn: () => getProgress(),
-    refetchInterval: 1000,
-    enabled: !!searchQuery,
+    queryKey: ["progress"], 
+    queryFn: () => getProgress(), 
+    refetchInterval: 1000, // Refetch every second
+    enabled: !!searchQuery, 
   });
 
   const tiempoSegundos = progress.data?.data.tiempoSegundos || 0;
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: ["articles", currentPage],
-    queryFn: () => getArticles(currentPage, 20),
+    queryFn: () => getArticles(currentPage, 20), // <--- aquí el 20 es la cantidad de artículos por página
     enabled: currentPage > 0,
   });
   const mutation = useMutation({
-    mutationFn: () => searchArticles(searchQuery, 20),
+    mutationFn: () => searchArticles(searchQuery, 20), // <--- aquí el 20 es la cantidad máxima de resultados
     onSuccess: (data) => {
       setCurrentPage(1);
     },
